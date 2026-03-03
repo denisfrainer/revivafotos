@@ -1,0 +1,38 @@
+{
+  "HeroSection": {
+    "title": "Restore your most precious memories",
+    "subtitle": "AI technology combined with manual care for perfect results in seconds.",
+    "ctaPrimary": "Restore My Photos",
+    "ctaSecondary": "FREE TRIAL",
+    "cancel": "Cancel",
+    "features": "Our Services"
+  },
+  "Header": {
+    "brand": "Reviva Photos",
+    "features": "Services",
+    "contact": "Contact Us"
+  },
+  "FeaturesSection": {
+    "title": "Why Choose This Stack",
+    "subtitle": "Everything you need to deliver blazing-fast websites that convert visitors into customers.",
+    "feature1Title": "Lightning Fast",
+    "feature1Description": "Built on Next.js with SSG for PageSpeed 99+ scores out of the box. Your clients will love the speed.",
+    "feature2Title": "Rock-Solid SEO",
+    "feature2Description": "Pre-rendered pages, semantic HTML, and optimized meta tags ensure top search engine rankings.",
+    "feature3Title": "Multi-Language Ready",
+    "feature3Description": "Full i18n support with next-intl. Add new languages by simply creating a JSON file."
+  },
+  "CTASection": {
+    "title": "Ready to get started?",
+    "description": "Clone this boilerplate and have your next client site live in under 24 hours.",
+    "button": "Get Started"
+  },
+  "Footer": {
+    "brand": "Starter Kit",
+    "description": "A high-performance boilerplate for building fast, beautiful, and multilingual websites.",
+    "navigation": "Navigation",
+    "features": "Features",
+    "contact": "Contact",
+    "copyright": "All rights reserved."
+  }
+}
