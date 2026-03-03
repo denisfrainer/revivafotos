@@ -1,6 +1,6 @@
 {
-  "name": "vibe-coder-boilerplate",
-  "version": "0.1.0",
+  "name": "godspeed-kit",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
