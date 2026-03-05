@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   output: 'export',
 
   // Recomendado para melhor compatibilidade com rotas estáticas e next-intl
-  trailingSlash: true,
+  trailingSlash: false,
 
   // Opcional: Configuração de imagens para Static Export
   images: {

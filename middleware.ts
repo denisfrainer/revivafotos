@@ -24,7 +24,7 @@ export const config = {
   // Sem isso, o build SSG falha ao tentar processar imagens, favicon, etc.
   matcher: [
     // Incluir todas as rotas EXCETO:
-    '/((?!_next|api|favicon.ico|images|certificates|.*\\..*|.*\\..*).*)',
+    '/((?!api|_next|favicon.ico|images|certificates|.*\\..*|.*\\..*).*)',
 
     // Incluir rotas raiz
     '/',
