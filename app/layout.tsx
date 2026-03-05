@@ -7,7 +7,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Source_Sans_3 } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -62,7 +61,6 @@ export default function RootLayout({
                 )}
             >
                 {children}
-                <FloatingWhatsApp />
             </body>
         </html>
     );
