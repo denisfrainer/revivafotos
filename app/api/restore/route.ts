@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
                     role: "user",
                     parts: [
                         { inlineData: { data: base64Data, mimeType: body.mimeType || "image/jpeg" } },
-                        { text: "Restore this old photo, remove noise, scratches, and sepia tones, enhance facial details to high-fidelity." }
+                        { text: "Restore this old photo, remove noise, scratches, and sepia tones. Apply natural, vibrant, high-fidelity colorization to the entire image. Enhance facial details." }
                     ]
                 }
             ],

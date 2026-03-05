@@ -112,11 +112,8 @@ export function HeroConversion({ onStateChange }: HeroConversionProps) {
             {/* ESTADO LOADING: Spinner + Live Timer */}
             {appState === 'LOADING' && (
                 <div className="flex flex-col items-center gap-6">
-                    {/* Spinner SVG */}
-                    <svg className="animate-spin h-10 w-10 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
+                    {/* Spinner */}
+                    <div className="w-16 h-16 border-4 border-white/30 border-t-transparent rounded-full animate-spin" />
                     <p className="text-gray-200" style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: '18px' }}>
                         A IA está fazendo sua mágica em{' '}
                         <span className="font-mono font-bold text-white tabular-nums">{displayTime}</span>s...
@@ -140,7 +137,7 @@ export function HeroConversion({ onStateChange }: HeroConversionProps) {
                         }}
                         className="w-full max-w-2xl flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl px-6 py-5 rounded-2xl transition-all duration-200 active:scale-[0.98] shadow-lg"
                     >
-                        Baixar foto em alta resolução
+                        Baixar foto em alta resolução (HD)
                     </button>
 
                     {/* Link sutil — Restaurar outra */}
@@ -154,6 +151,11 @@ export function HeroConversion({ onStateChange }: HeroConversionProps) {
                     >
                         Restaurar outra foto
                     </button>
+
+                    {/* Trust badge */}
+                    <p className="text-xs text-gray-500">
+                        🔒 Pagamento 100% Seguro. Download Imediato.
+                    </p>
                 </div>
             )}
         </div>
