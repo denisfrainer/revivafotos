@@ -7,63 +7,92 @@ import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 type AppState = 'IDLE' | 'PREVIEW' | 'LOADING';
 
-/**
- * HERO CONVERSION — Premium State Machine
- *
- * States:
- * - IDLE: BeforeAfterSlider (proof) + ActionButtons (conversion triggers)
- * - PREVIEW: (reserved for future use: shows user's selected photo before processing)
- * - LOADING: Full-screen LoadingSpinner, hides everything else
- *
- * Zero CLS: Container has min-h to prevent layout shifts on state transitions.
- * Crossfade: opacity + transition for smooth state swaps.
- */
 export function HeroConversion() {
     const [appState, setAppState] = useState<AppState>('IDLE');
+    const [originalImage, setOriginalImage] = useState<string | null>(null);
+    const [restoredImage, setRestoredImage] = useState<string | null>(null);
 
-    const handleFileSelected = useCallback((file: File) => {
-        console.log('Processing file:', file.name, file.size);
-        // Transition to LOADING state
+    const handleFileSelected = useCallback(async (file: File) => {
+        console.log('🚀 Iniciando restauração:', file.name);
         setAppState('LOADING');
 
-        // TODO: Send file to Gemini restoration API
-        // On success: setAppState('PREVIEW') or show result
-        // On error: setAppState('IDLE') with error message
-    }, []);
+        try {
+            // 1. Converter para Base64
+            const reader = new FileReader();
+            const base64Promise = new Promise<string>((resolve) => {
+                reader.onload = () => {
+                    const base64 = (reader.result as string).split(',')[1];
+                    resolve(base64);
+                };
+            });
+            reader.readAsDataURL(file);
+            const base64Data = await base64Promise;
+
+            setOriginalImage(URL.createObjectURL(file));
+
+            // 2. Chamada para a rota RESTORE (Sincronizada com seu Explorer)
+            const response = await fetch('/api/restore', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    image: base64Data,
+                    mimeType: file.type
+                }),
+            });
+
+            if (!response.ok) throw new Error('Falha na restauração');
+
+            const data = await response.json();
+
+            // 3. Processar Sucesso
+            if (data.success && data.image) {
+                setRestoredImage(data.image);
+                setAppState('PREVIEW');
+            } else {
+                throw new Error(data.error || 'Falha na restauração');
+            }
+
+        } catch (error: any) {
+            console.error('❌ Erro:', error);
+            alert(error.message || 'Houve um erro ao processar sua foto.');
+            setAppState('IDLE');
+        }
+    }, []); // <--- O array de dependências que o erro ts(2554) reclamou
 
     return (
-        <div className="w-full max-w-5xl mx-auto min-h-[500px] sm:min-h-[600px] flex flex-col items-center justify-center relative">
-            {/* IDLE STATE: Slider + Action Buttons */}
+        <div className="w-full max-w-5xl mx-auto min-h-[500px] flex flex-col items-center justify-center relative">
+
+            {/* ESTADO IDLE: Mostra o exemplo original */}
             {appState === 'IDLE' && (
-                <div className="w-full flex flex-col items-center gap-8 sm:gap-10 animate-[fadeIn_0.3s_ease-out_forwards]">
-                    {/* THE PROOF: Before/After Slider */}
+                <div className="w-full flex flex-col items-center gap-10">
                     <BeforeAfterSlider
                         beforeImage="/assets/before.avif"
                         afterImage="/assets/after.avif"
                     />
-
-                    {/* THE ACTION: Massive Camera + Gallery Buttons */}
                     <ActionButtons onFileSelected={handleFileSelected} />
                 </div>
             )}
 
-            {/* LOADING STATE: Spinner Only */}
+            {/* ESTADO LOADING: Spinner Limpo */}
             {appState === 'LOADING' && (
-                <div className="w-full flex items-center justify-center min-h-[400px] animate-[fadeIn_0.3s_ease-out_forwards]">
+                <div className="flex flex-col items-center gap-4">
                     <LoadingSpinner />
+                    <p className="text-white animate-pulse">Restaurando memórias...</p>
                 </div>
             )}
 
-            {/* PREVIEW STATE: Reserved for future result display */}
-            {appState === 'PREVIEW' && (
-                <div className="w-full flex flex-col items-center gap-6 animate-[fadeIn_0.3s_ease-out_forwards]">
-                    <p className="text-xl text-gray-300">Resultado da restauração</p>
+            {/* ESTADO PREVIEW: O Resultado Real do Usuário */}
+            {appState === 'PREVIEW' && restoredImage && originalImage && (
+                <div className="w-full flex flex-col items-center gap-8">
+                    <BeforeAfterSlider
+                        beforeImage={originalImage}
+                        afterImage={restoredImage}
+                    />
                     <button
-                        type="button"
                         onClick={() => setAppState('IDLE')}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl px-8 py-5 rounded-2xl transition-all duration-200 active:scale-[0.98]"
+                        className="bg-white text-black px-8 py-4 rounded-full font-bold"
                     >
-                        Restaurar outra foto
+                        Restaurar outra
                     </button>
                 </div>
             )}

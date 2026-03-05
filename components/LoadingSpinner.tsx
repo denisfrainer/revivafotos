@@ -1,32 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-
 /**
  * LOADING SPINNER — Zero-Rerender Architecture
  *
- * Uses requestAnimationFrame + useRef for the timer counter.
- * font-mono is ONLY on the timer <span>. All other text uses Inter (inherited).
+ * All other text uses Inter (inherited).
  */
 export function LoadingSpinner() {
-    const timerRef = useRef<HTMLSpanElement>(null);
-
-    useEffect(() => {
-        const startTime = performance.now();
-        let animationFrameId: number;
-
-        const updateTimer = () => {
-            if (timerRef.current) {
-                const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
-                timerRef.current.textContent = elapsed;
-            }
-            animationFrameId = requestAnimationFrame(updateTimer);
-        };
-
-        animationFrameId = requestAnimationFrame(updateTimer);
-        return () => cancelAnimationFrame(animationFrameId);
-    }, []);
-
     return (
         <div className="flex flex-col items-center justify-center h-full text-center p-8">
             {/* Spinner */}
@@ -39,7 +18,7 @@ export function LoadingSpinner() {
                 A IA está restaurando sua foto...
             </p>
             <p className="text-sm text-gray-400">
-                Tempo de processamento: <span ref={timerRef} className="font-mono text-gray-200">0.00</span>s
+                A IA está fazendo sua mágica... (Isso pode levar alguns segundos)
             </p>
         </div>
     );
