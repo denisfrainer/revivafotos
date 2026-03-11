@@ -14,6 +14,9 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+// THE HYBRID CACHE LOCK: Força a página a ser HTML estático imutável, mesmo sem output: 'export'
+export const dynamic = 'force-static';
+
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;

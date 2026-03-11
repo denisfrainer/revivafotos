@@ -1,11 +1,14 @@
-﻿import type { NextConfig } from "next";
+import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig: NextConfig = {
+  // CRÍTICO para SSG e Netlify/Vercel (Static Export)
+  output: 'export',
 
-  // Recomendado para melhor compatibilidade com rotas estáticas e next-intl
+  // CRÍTICO para Netlify: trailingSlash false evita loop de redirect
+  // Netlify Pretty URLs serve /pt/index.html em /pt sem adicionar slash
   trailingSlash: false,
 
   // Opcional: Configuração de imagens para Static Export

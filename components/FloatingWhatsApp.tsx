@@ -19,7 +19,7 @@ export function FloatingWhatsApp() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Fale conosco pelo WhatsApp"
-            className="fixed bottom-6 right-6 z-50 block hover:scale-110 active:scale-95 transition-transform duration-300 drop-shadow-lg animate-[bounceIn_0.6s_ease-out_1s_both]"
+            className="fixed bottom-6 right-6 z-50 block hover:scale-110 active:scale-95 transition-transform duration-300 drop-shadow-lg"
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

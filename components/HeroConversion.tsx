@@ -6,11 +6,7 @@ import { ActionButtons } from '@/components/ActionButtons';
 
 export type AppState = 'IDLE' | 'PREVIEW' | 'LOADING';
 
-interface HeroConversionProps {
-    onStateChange?: (state: AppState) => void;
-}
-
-export function HeroConversion({ onStateChange }: HeroConversionProps) {
+export function HeroConversion() {
     const [appState, setAppState] = useState<AppState>('IDLE');
     const [originalImage, setOriginalImage] = useState<string | null>(null);
     const [restoredImage, setRestoredImage] = useState<string | null>(null);
@@ -20,15 +16,9 @@ export function HeroConversion({ onStateChange }: HeroConversionProps) {
     const rafIdRef = useRef<number>(0);
     const startTimeRef = useRef<number>(0);
 
-    // 📡 Notify parent of state changes
-    useEffect(() => {
-        onStateChange?.(appState);
-    }, [appState, onStateChange]);
-
     // 🔄 requestAnimationFrame loop — starts/stops with LOADING state
     useEffect(() => {
         if (appState !== 'LOADING') {
-            // Clean up any lingering frame
             if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
             return;
         }
@@ -96,18 +86,24 @@ export function HeroConversion({ onStateChange }: HeroConversionProps) {
     }, []);
 
     return (
-        <div className="w-full max-w-5xl mx-auto min-h-[500px] flex flex-col items-center justify-center relative">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center relative">
 
-            {/* ESTADO IDLE: Mostra o exemplo original */}
-            {appState === 'IDLE' && (
-                <div className="w-full flex flex-col items-center gap-10">
+            {/* ESTADO IDLE: Rendered unconditionally for SSR — hidden when inactive */}
+            <div className="w-full flex flex-col items-center gap-10" hidden={appState !== 'IDLE'}>
+                    <div className="text-center space-y-3 sm:space-y-4 pt-8 px-2">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight tracking-tight">
+                            Restaure suas fotos antigas em segundos
+                        </h1>
+                        <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                            Nossa inteligência artificial remove manchas, arranhões e borrões. Experimente abaixo.
+                        </p>
+                    </div>
                     <BeforeAfterSlider
                         beforeImage="/assets/before.avif"
                         afterImage="/assets/after.avif"
                     />
                     <ActionButtons onFileSelected={handleFileSelected} />
-                </div>
-            )}
+            </div>
 
             {/* ESTADO LOADING: Spinner + Live Timer */}
             {appState === 'LOADING' && (
